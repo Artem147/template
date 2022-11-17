@@ -63,7 +63,7 @@
 .popular_artists{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     padding: 30px;
     gap: 20px;
 }
@@ -99,7 +99,7 @@
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
 }
 .track-img{
