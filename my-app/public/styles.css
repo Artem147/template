@@ -12,36 +12,46 @@
 }
 
 .footer{
+    display: flex;
+    flex-direction: column;
     background-color: #141414;
+    padding: 30px;
     font-size: 14px;
-    color: #ccc;
 }
 
 .header{
     background-color: #141414;
     font-size: 18px;
     color: #ccc;
-    padding-right: 40px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.header_icon, .header_logo, .header_search{
+    width: 33%;
+}
+
+.header_logo, .header_search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
 .header_link{
     color: rgb(255, 0, 0);
     text-decoration: none;
     font-size: 32px;
-    width: 150px;
-    position: absolute;
-    left: calc(50% - 75px);
-    text-align: center;
 }
 
 .header__input{
     width: 250px;
 }
 
-
+.header_search_logo{
+    color: white;
+}
 
 .content{
     padding: 40px;
@@ -206,13 +216,6 @@
 
 .search-track-cover, .search-track-name, .search-track-author{
     margin-left: 15px;
-}
-
-.footer{
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    padding: 30px;
 }
 
 .footer_lists{
