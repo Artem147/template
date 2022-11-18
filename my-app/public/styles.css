@@ -208,3 +208,35 @@
     margin-left: 15px;
 }
 
+.footer{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    padding: 30px;
+}
+
+.footer_lists{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10%;
+}
+
+.footer_list{
+    display: flex;
+    flex-direction: column;
+}
+
+.footer_list_item{
+    color: rgb(188, 188, 188);
+}
+
+.footer_title{
+    color: grey;
+}
+
+.footer_signature{
+    color: grey;
+    font-size: 10px;
+    padding-top: 15px;
+}
