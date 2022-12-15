@@ -1,14 +1,16 @@
 const key = '808fff1cd3cc4019d055549931a1fcfb'
 const headerLogo = document.querySelector('.header_logo');
-
+const searchForm = document.querySelector('.header__input');
 
 createMainContent()
 
+/* call createMainContent by click on logo */
 headerLogo.addEventListener('click', function() {
     createMainContent()
 })
 
 function createMainContent(){
+    /* create mainContent element with popular tracks and artists*/
     const mainContent = document.querySelector('.content');
     mainContent.innerHTML = '';
     const artistList = getPopularArtist();
@@ -32,9 +34,21 @@ function createMainContent(){
 
 }
 
+
+/*
+        <div class="artist">
+            <div class="artist-image"></div>
+            <div class="artist-name">
+                <a href='${artist.url}'>${artist.name}</a>
+            </div>
+            <div class="artist-tag">rnb,electronic,canadian</div>
+        </div>
+*/
+
 function getPopularArtist(){
+    /* return div with most popular artists */
     const artistList = createEl('div', 'popular_artists');
-    fetch(`https://ws.audioscrobbler.com///2.0/?method=chart.gettopartists&api_key=${key}&format=json`)
+    fetch(`https://ws.audioscrobbler.com///2.0/?method=chart.gettopartists&limit=6&api_key=${key}&format=json`)
     .then((response) => {
         return response.json();
     })
@@ -65,25 +79,31 @@ function getPopularArtist(){
     return artistList
 }
 
-/*`
-        <div class="artist">
-            <div class="artist-image"></div>
-            <div class="artist-name">
-                <a href='${artist.url}'>${artist.name}</a>
+
+/*
+<div class="track">
+        <div class="track">
+            <div class="track-img"></div>
+            <div class="track-description">
+                <div class="track-name">
+                    <a class= "track_url" href='${track.url}'>${track.name}</a>
+                </div>
+                <div class="track-author">${track.artist.name}</div>
             </div>
-            <div class="artist-tag">rnb,electronic,canadian</div>
-        </div>`
+        </div>
+    </div>
 */
 
 function getPopularTracks(){
+    /* return div with most popular tracks */
     const trackList = createEl('div', 'popular_tracks');
-    fetch(`https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=${key}&format=json`)
+    fetch(`https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&limit=10&api_key=${key}&format=json`)
     .then((response) => {
         return response.json();
     })
     .then((json)=>{
         const tracks = json['tracks']['track']
-        tracks.slice(0, 10).forEach((track) => {
+        tracks.forEach((track) => {
             const track_div = createEl('div', 'track')
             const track_img_div = createEl('div', 'track-img')
             const track_description_div = createEl('div', 'track-description')
@@ -108,29 +128,8 @@ function getPopularTracks(){
 }
 
 
-
-/*
-`<div class="track">
-        <div class="track">
-            <div class="track-img"></div>
-            <div class="track-description">
-                <div class="track-name">
-                    <a class= "track_url" href='${track.url}'>${track.name}</a>
-                </div>
-                <div class="track-author">${track.artist.name}</div>
-            </div>
-        </div>
-    </div>`
-        trackList.insertAdjacentHTML('beforeend', element)
-*/
-
-function createEl(tag, class_name) {
-    const element = document.createElement(tag)
-    element.className = class_name
-    return element
-}
-
 function getTagNames(artist_name){
+    /* return formatted string with artist tags by artist-name */
     return fetch(`https://ws.audioscrobbler.com///2.0/?method=artist.gettoptags&artist=${artist_name}&api_key=${key}&format=json`)
     .then((response) => {
         return response.json();
@@ -153,8 +152,7 @@ function appendItems(){
 }
 
 
-const searchForm = document.querySelector('.header__input');
-
+/* create mainContent element with search result */
 searchForm.addEventListener('keydown', function(event) {
     if (event.code == 'Enter'){
         const searchText = searchForm.value;
@@ -186,6 +184,7 @@ searchForm.addEventListener('keydown', function(event) {
     }
 })
 
+
 /*
     <div class="search-artist">
         <div class="search-artist-name">80's greatest hits</div>
@@ -193,14 +192,15 @@ searchForm.addEventListener('keydown', function(event) {
 */
 
 function makeArtistSearch(artist_name){
+    /* return div with founded artists by artist-name */
     const artistSearch = createEl('div', 'search-artists')
-    fetch(`https://ws.audioscrobbler.com///2.0/?method=artist.search&artist='${artist_name}'&api_key=${key}&format=json`)
+    fetch(`https://ws.audioscrobbler.com///2.0/?method=artist.search&artist='${artist_name}'&limit=5&api_key=${key}&format=json`)
     .then((response) => {
         return response.json();
     })
     .then((json)=>{
         const artists = json['results']['artistmatches']['artist']
-        artists.slice(0, 5).forEach((artist) => {
+        artists.forEach((artist) => {
             const search_artist_div = createEl('a', 'search-artist')
             search_artist_div.href = artist.url
             const search_artist_name_div = createEl('div', 'search-artist-name')
@@ -214,6 +214,7 @@ function makeArtistSearch(artist_name){
     return artistSearch
 }
 
+
 /*
     <div class="search-album">
         <div class="search-album-name">Greatest hits</div>
@@ -222,14 +223,15 @@ function makeArtistSearch(artist_name){
 */
 
 function makeAlbumSearch(album_name){
+    /* return div with founded albums by album-name */
     const albumSearch = createEl('div', 'search-albums')
-    fetch(`https://ws.audioscrobbler.com///2.0/?method=album.search&album=${album_name}&api_key=${key}&format=json`)
+    fetch(`https://ws.audioscrobbler.com///2.0/?method=album.search&album=${album_name}&limit=5&api_key=${key}&format=json`)
     .then((response) => {
         return response.json();
     })
     .then((json)=>{
         const albums = json['results']['albummatches']['album']
-        albums.slice(0, 5).forEach((album) => {
+        albums.forEach((album) => {
             const search_album_div = createEl('a', 'search-album')
             search_album_div.href = album.url
             const search_album_name_div = createEl('div', 'search-album-name')
@@ -255,15 +257,17 @@ function makeAlbumSearch(album_name){
         <div class="search-track-author">Исполнитель 5</div>
     </div>
 */
+
 function makeTrackSearch(track_name){
+    /* return div with founded tracks by track-name */
     const trackSearch = createEl('div', 'search-tracks')
-    fetch(`https://ws.audioscrobbler.com///2.0/?method=track.search&track=${track_name}&api_key=${key}&format=json`)
+    fetch(`https://ws.audioscrobbler.com///2.0/?method=track.search&track=${track_name}&limit=10&api_key=${key}&format=json`)
     .then((response) => {
         return response.json();
     })
     .then((json)=>{
         const tracks = json['results']['trackmatches']['track']
-        tracks.slice(0, 8).forEach((track) => {
+        tracks.forEach((track) => {
             const search_track_div = createEl('a', 'search-track')
             search_track_div.href = track.url
             const search_track_cover_div = createEl('div', 'search-track-cover')
@@ -279,4 +283,11 @@ function makeTrackSearch(track_name){
         })
     })
     return trackSearch
+}
+
+function createEl(tag, class_name) {
+    /* return new dom elemet*/
+    const element = document.createElement(tag)
+    element.className = class_name
+    return element
 }
