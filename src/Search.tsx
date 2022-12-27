@@ -1,19 +1,20 @@
 import Footer from './components/Footer';
 import Header from './components/Header';
-
-import MainContent from './components/MainContent/MainContent';
+import { useLocation} from 'react-router-dom';
 import SearchContent from './components/Search/SearchContent';
 
-function App() {
+function Search() {
+  const {state} = useLocation();
+  const { searchValue } = state;
   return (
     <>
         <Header/>
 
-        <MainContent/>
+        <SearchContent search_value={searchValue}/>
 
         <Footer/>
     </>
   );
 }
 
-export default App;
+export default Search;
